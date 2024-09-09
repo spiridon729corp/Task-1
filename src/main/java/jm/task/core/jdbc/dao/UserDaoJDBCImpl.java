@@ -19,10 +19,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
         try {
             Connection connection = Util.getConnection();
-            Statement statement = connection.createStatement();
-            statement.execute(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Ошибка создания таблицы  " + e);
         }
     }
 
