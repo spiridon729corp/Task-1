@@ -15,13 +15,15 @@ public class Util {
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
         String password = "Seltaeb5";
+
+        Connection connection = null;
         try {
-            return DriverManager.getConnection(url, user, password);
+            connection =  DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Ошибка подключения к базе  " + e);
 
         }
-
+return connection;
     }
 
 }

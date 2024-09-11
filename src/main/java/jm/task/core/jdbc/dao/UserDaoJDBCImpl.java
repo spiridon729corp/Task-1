@@ -17,9 +17,8 @@ public class UserDaoJDBCImpl implements UserDao {
                 "id SERIAL PRIMARY KEY, name TEXT," +
                 "lastname TEXT, age SMALLINT);";
 
-        try {
-            Connection connection = Util.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
+        try (Connection connection = Util.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Ошибка создания таблицы  " + e);
@@ -56,6 +55,7 @@ public class UserDaoJDBCImpl implements UserDao {
              PreparedStatement pstm = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
             pstm.setLong(1, id);
             pstm.executeUpdate();
+            System.out.println("Удалён юзер с id "+ id);
         } catch (SQLException e) {
             System.out.println("Ошибка удаления пользователя по id " + e);
         }
@@ -65,6 +65,7 @@ public class UserDaoJDBCImpl implements UserDao {
         List<User> users = new ArrayList<>();
         try (Connection connection = Util.getConnection();
              ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM users")) {
+            System.out.println("Список всех пользователей: ");
             while (resultSet.next()) {
                 User user = new User(resultSet.getString("name"),
                         resultSet.getString("lastname"),
